@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Slide Display</title>
+    <link rel="stylesheet" href="portfolio.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- stylesheet added for new navbar -->
+    <link
+        href="https://assets-global.website-files.com/6075e869c1ce85d8a18a162a/css/danshettysite.webflow.dab29779c.css"
+        rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:regular,500,600,700" media="all" />
+
+
+    <style>
+        /* Button Style */
+        .nav-link {
+            white-space: nowrap;
+        }
+
+        .show-figma-btn {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: black;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+
+        }
+
+        .show-figma-btn:hover {
+            background-color: gray;
+        }
+
+        /* Modal Style */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        /* Modal Content */
+        .modal-content {
+            background-color: #fff;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 1000px;
+            height: 90%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+
+        }
+
+        /* Close Button */
+        .close {
+            color: #aaa;
+            font-size: 28px;
+            font-weight: bold;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* iframe styling */
+        iframe {
+            width: 50%;
+            height: 100%;
+            border: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div data-collapse="medium" data-animation="default" data-duration="400" data-easing="ease" data-easing2="ease"
+        role="banner" class="navbar w-nav">
+        <div class="navigation-container">
+            <div class="navigation-left">
+                <a href="/portfolio/aashutosh.html" class="brand w-nav-brand" aria-label="home"><img
+                        src="https://cdn.prod.website-files.com/6075e869c1ce85d8a18a162a/6099cb2edd4914ce5fa780e8_a05e27fbc2cd74b3d8153a4212f82e9d-sticker.png"
+                        loading="lazy" alt="" class="logo" /></a>
+            </div>
+            <div class="navigation-middle">
+                <nav role="navigation" class="nav-menu w-nav-menu">
+                    <a href="/portfolio/aashutosh.html" class="nav-link w-nav-link">Home</a><a
+                        href="/portfolio/aashutosh.html#projects" class="nav-link w-nav-link">Projects</a>
+                    <!-- <a href="/portfolio/resume.html" target="_blank" class="nav-link w-nav-link">About Me</a> -->
+                    <a href="/portfolio/aashutosh.html#contact" class="nav-link w-nav-link">Contact</a>
+                </nav>
+            </div>
+            <div class="navigation-right">
+                <div class="social-links-container">
+                    <a href="mailto:agrawal.aash@northeastern.edu?subject=Aashutosh%2C%20I%20just%20saw%20your%20website!%20"
+                        class="social-link-wrap w-inline-block"><img
+                            src="https://cdn.prod.website-files.com/6075e869c1ce85d8a18a162a/6080a0773eddbafeb83a3039_telegram.png"
+                            loading="lazy" alt="" class="dribble-icon" /></a><a href="tel:+18572304392"
+                        class="social-link-wrap w-inline-block"><img
+                            src="https://cdn.prod.website-files.com/6075e869c1ce85d8a18a162a/6080a0bff61882f98551ad38_viber.png"
+                            loading="lazy" width="18" alt="" class="twitter-icon" /></a><a
+                        href="https://www.linkedin.com/in/aashutosh-agrawal/" target="_blank"
+                        class="social-link-wrap w-inline-block"><img
+                            src="https://cdn.prod.website-files.com/6075e869c1ce85d8a18a162a/6080a057a23a8b3e97da5f04_linkedin%20(1).png"
+                            loading="lazy" alt="" class="instagram-icon" /></a>
+                </div>
+                <div class="menu-button w-nav-button" style="-webkit-user-select: text" aria-label="menu" role="button"
+                    tabindex="0" aria-controls="w-nav-overlay-0" aria-haspopup="menu" aria-expanded="false">
+                    <div class="w-icon-nav-menu"></div>
+                </div>
+            </div>
+        </div>
+        <div class="w-nav-overlay" data-wf-ignore="" id="w-nav-overlay-0"></div>
+    </div>
+
+    <!-- The Modal -->
+    <div id="figmaModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <!-- Embed Figma iframe -->
+            <iframe style="border: 1px solid rgba(0, 0, 0, 0.1);" width="200" height="1200"
+                src="https://embed.figma.com/proto/aowt9RJ7Yxqhyf5igxVBEy/Uber?node-id=1-2&p=f&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=1%3A344&embed-host=share"
+                allowfullscreen></iframe>
+        </div>
+    </div>
+
+    <!-- Slide Section -->
+    <section>
+        <div class="container mt-5">
+            <h1 class="text-center mb-4 text">My Presentation</h1>
+            <div class="text-center">
+                <button class="show-figma-btn" id="showFigmaBtn">Show Figma</button>
+            </div>
+            <div>
+
+
+                <div style="padding-top: 5%;">
+                    <div>
+                        <img src="slides/Uber/slide1.jpg" alt="Slide 1" class="img-fluid shadow-lg">
+                    </div>
+                </div>
+
+                <div style="padding-top: 5%;">
+                    <div>
+                        <img src="slides/Uber/slide3.jpg" alt="Slide 3" class="img-fluid shadow-lg">
+                    </div>
+                </div>
+
+                <div style="padding-top: 5%;">
+                    <div>
+                        <img src="slides/Uber/slide4.jpg" alt="Slide 4" class="img-fluid shadow-lg">
+                    </div>
+                </div>
+
+                <div style="padding-top: 5%;">
+                    <div>
+                        <img src="slides/Uber/slide5.jpg" alt="Slide 5" class="img-fluid shadow-lg">
+                    </div>
+                </div>
+
+                <div style="padding-top: 5%;">
+                    <div>
+                        <img src="slides/Uber/slide6.jpg" alt="Slide 6" class="img-fluid shadow-lg">
+                    </div>
+                </div>
+
+                <div style="padding-top: 5%;">
+                    <div>
+                        <img src="slides/Uber/slide7.jpg" alt="Slide 7" class="img-fluid shadow-lg">
+                    </div>
+                </div>
+
+                <div style="padding-top: 5%;">
+                    <div>
+                        <img src="slides/Uber/slide8.jpg" alt="Slide 8" class="img-fluid shadow-lg">
+                    </div>
+                </div>
+
+                <div style="padding-top: 5%;">
+                    <div>
+                        <img src="slides/Uber/slide9.jpg" alt="Slide 9" class="img-fluid shadow-lg">
+                    </div>
+                </div>
+
+                <div style="padding-top: 5%;">
+                    <div>
+                        <img src="slides/Uber/slide10.jpg" alt="Slide 10" class="img-fluid shadow-lg">
+                    </div>
+                </div>
+
+                <div style="padding-top: 5%;">
+                    <div>
+                        <img src="slides/Uber/slide11.jpg" alt="Slide 11" class="img-fluid shadow-lg">
+                    </div>
+                </div>
+
+                <div style="padding-top: 5%;">
+                    <div>
+                        <img src="slides/Uber/slide12.jpg" alt="Slide 12" class="img-fluid shadow-lg">
+                    </div>
+                </div>
+
+                <div style="padding-top: 5%;">
+                    <div>
+                        <img src="slides/Uber/slide13.jpg" alt="Slide 13" class="img-fluid shadow-lg">
+                    </div>
+                </div>
+
+                <div style="padding-top: 5%;">
+                    <div>
+                        <img src="slides/Uber/slide14.jpg" alt="Slide 14" class="img-fluid shadow-lg">
+                    </div>
+                </div>
+
+                <div style="padding-top: 5%;">
+                    <div>
+                        <img src="slides/Uber/slide15.jpg" alt="Slide 15" class="img-fluid shadow-lg">
+                    </div>
+                </div>
+
+                <div style="padding-top: 5%;">
+                    <div>
+                        <img src="slides/Uber/slide16.jpg" alt="Slide 16" class="img-fluid shadow-lg">
+                    </div>
+                </div>
+
+                <div style="padding-top: 5%;">
+                    <div>
+                        <img src="slides/Uber/slide17.jpg" alt="Slide 17" class="img-fluid shadow-lg">
+                    </div>
+                </div>
+
+                <div style="padding-top: 5%;">
+                    <div>
+                        <img src="slides/Uber/slide19.jpg" alt="Slide 19" class="img-fluid shadow-lg">
+                    </div>
+                </div>
+
+                <div style="padding-top: 5%;">
+                    <div>
+                        <img src="slides/Uber/slide20.jpg" alt="Slide 20" class="img-fluid shadow-lg">
+                    </div>
+                </div>
+
+                <div style="padding-top: 5%;">
+                    <div>
+                        <img src="slides/Uber/slide21.jpg" alt="Slide 21" class="img-fluid shadow-lg">
+                    </div>
+                </div>
+
+                <div style="padding-top: 5%; padding-bottom: 20%;">
+                    <div>
+                        <img src="slides/Uber/slide22.jpg" alt="Slide 22" class="img-fluid shadow-lg">
+                    </div>
+                </div>
+
+    </section>
+
+    <section class="contact-section text-center" id="contact">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-6 text-start">
+              <h2>Aashutosh Agrawal</h2>
+              <p>Aspiring Product Manager</p>
+            </div>
+            <div class="col-md-6 text-end">
+              <h2>Lets Talk!</h2>
+              <p>
+                I am always open to connect with people in tech, learn more about
+                product management, and discuss navigating this rewarding career
+                path.
+              </p>
+    
+              <div class="w-row">
+                <div class="column-3 w-col w-col-4">
+                  <a href="tel:+18572304392" class="w-inline-block">
+                    <div class="avatar-circle">
+                      <img
+                        src="https://cdn.prod.website-files.com/6075e869c1ce85d8a18a162a/6079f78653135c1693e30fbb_be8a130e447f5421e55e4aeb49325383-sticker.png"
+                        loading="lazy" alt="" class="avatar-logo" />
+                    </div>
+                  </a>
+                </div>
+                <div class="w-col w-col-4">
+                  <a href="https://www.linkedin.com/in/aashutosh-agrawal/" class="w-inline-block"><img
+                      src="https://cdn.prod.website-files.com/6075e869c1ce85d8a18a162a/6075fc3986b2e466824c0aa6_linkedin-icon.svg"
+                      loading="lazy" alt="" class="avatar-logo" /></a>
+                </div>
+                <div class="w-col w-col-4">
+                  <a href="mailto:agrawalashutosh9@gmail.com" class="w-inline-block"><img
+                      src="https://cdn.prod.website-files.com/6075e869c1ce85d8a18a162a/6075fd6586b2e465164c0f09_gmail.png"
+                      loading="lazy" alt="" class="avatar-logo" /></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script> <!-- Link to your custom JavaScript -->
+
+    <script>
+        // Get the modal and button
+        var modal = document.getElementById("figmaModal");
+        var btn = document.getElementById("showFigmaBtn");
+        var span = document.getElementsByClassName("close")[0];
+
+        // When the user clicks the button, open the modal
+        btn.onclick = function () {
+            modal.style.display = "block";
+        }
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function () {
+            modal.style.display = "none";
+        }
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+</body>
+
+</html>
