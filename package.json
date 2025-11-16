@@ -30,7 +30,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "homepage": "https://aashutoshagrawal.github.io/New-Portfolio-main",
+  "homepage": "https://aashutoshagrawal.github.io",
   "eslintConfig": {
     "extends": [
       "react-app",
