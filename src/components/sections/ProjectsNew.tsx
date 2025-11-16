@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { FaArrowRight, FaChartLine, FaUsers, FaBrain, FaRocket, FaSearch, FaLightbulb } from 'react-icons/fa';
+import { motion, AnimatePresence } from 'framer-motion';
+import { FaArrowRight, FaChartLine, FaUsers, FaBrain, FaRocket, FaSearch, FaLightbulb, FaExternalLinkAlt } from 'react-icons/fa';
 import { projectsData, helpHiveData } from '../../constants';
 import useScrollAnimation from '../../hooks/useScrollAnimation';
 import { useTheme } from '../../contexts/ThemeContext';
@@ -19,6 +19,12 @@ interface Project {
   sourceCodeLink: string;
   highlights: string[];
 }
+
+// Extract key metric from highlight
+const extractMetric = (highlight: string) => {
+  const match = highlight.match(/(\d+[%\+\w]*)/);
+  return match ? match[1] : null;
+};
 
 const Projects: React.FC = () => {
   const { ref, controls } = useScrollAnimation();

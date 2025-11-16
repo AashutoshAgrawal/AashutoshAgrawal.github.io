@@ -6,7 +6,7 @@ import ThemeToggle from '../components/common/ThemeToggle';
 import BackgroundShapes from '../components/common/BackgroundShapes';
 import Hero from '../components/sections/Hero';
 import About from '../components/sections/About';
-import Projects from '../components/sections/ProjectsNew';
+import Projects from '../components/sections/ProjectsBetter';
 // import Skills from '../components/sections/Skills'; // Hidden - will weave into About section
 import Experience from '../components/sections/Experience';
 import Testimonials from '../components/sections/Testimonials';
