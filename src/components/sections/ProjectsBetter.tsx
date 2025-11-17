@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 import { FaArrowRight, FaChartLine, FaSearch, FaLightbulb, FaRocket, FaCheckCircle } from 'react-icons/fa';
 import { projectsData } from '../../constants';
 import useScrollAnimation from '../../hooks/useScrollAnimation';
@@ -23,6 +24,7 @@ interface Project {
 const Projects: React.FC = () => {
   const { ref, controls } = useScrollAnimation();
   const { theme } = useTheme();
+  const navigate = useNavigate();
   const [hoveredProject, setHoveredProject] = useState<number | null>(null);
 
   const containerVariants = {
@@ -104,9 +106,9 @@ const Projects: React.FC = () => {
 
           {/* Hero Featured Project - Full Width Split */}
           <motion.div variants={itemVariants} className="mb-12">
-            <motion.a
-              href={getProjectLink(projectsData.projects[0].id)}
-              className="block group"
+            <motion.div
+              onClick={() => navigate(getProjectLink(projectsData.projects[0].id))}
+              className="block group cursor-pointer"
               whileHover={{ scale: 1.01 }}
               transition={{ duration: 0.3 }}
             >
@@ -204,7 +206,7 @@ const Projects: React.FC = () => {
                   </div>
                 </div>
               </div>
-            </motion.a>
+            </motion.div>
           </motion.div>
 
           {/* Other Projects - Grid */}
@@ -221,9 +223,9 @@ const Projects: React.FC = () => {
                   onHoverEnd={() => setHoveredProject(null)}
                   className={idx < 2 ? 'sm:col-span-1 lg:col-span-2' : 'sm:col-span-1'}
                 >
-                  <motion.a
-                    href={getProjectLink(project.id)}
-                    className="block h-full group"
+                  <motion.div
+                    onClick={() => navigate(getProjectLink(project.id))}
+                    className="block h-full group cursor-pointer"
                     whileHover={{ y: -8 }}
                     transition={{ duration: 0.3 }}
                   >
@@ -236,20 +238,6 @@ const Projects: React.FC = () => {
                           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
-                        
-                        {/* Metric Badge */}
-                        {primaryMetric?.metric && (
-                          <div className="absolute top-4 right-4">
-                            <motion.div
-                              initial={{ scale: 0.8, opacity: 0 }}
-                              animate={{ scale: 1, opacity: 1 }}
-                              className="px-3 py-2 bg-white/20 backdrop-blur-md rounded-lg border border-white/30"
-                            >
-                              <div className="text-2xl font-bold text-white">{primaryMetric.metric}</div>
-                              <div className="text-xs text-white/80">Impact</div>
-                            </motion.div>
-                          </div>
-                        )}
 
                         {/* Title Overlay */}
                         <div className="absolute bottom-4 left-4 right-4">
@@ -270,14 +258,18 @@ const Projects: React.FC = () => {
 
                         {/* Key Highlights */}
                         <div className="space-y-2 mb-4">
-                          {project.highlights.slice(0, 2).map((highlight, hIdx) => (
-                            <div key={hIdx} className="flex items-start gap-2">
-                              <Icon icon={FaCheckCircle} size={12} className={`mt-1 ${theme === 'dark' ? 'text-primary-400' : 'text-primary-600'}`} />
-                              <span className={`text-xs ${theme === 'dark' ? 'text-gray-500' : 'text-gray-600'}`}>
-                                {highlight.length > 50 ? highlight.substring(0, 50) + '...' : highlight}
-                              </span>
-                            </div>
-                          ))}
+                          {project.highlights.slice(0, 2).map((highlight, hIdx) => {
+                            // Remove emoji prefixes like 🎯, 🧠, 📊, ⚡ from the text
+                            const cleanHighlight = highlight.replace(/^[🎯🧠📊⚡]\s*(Strategy|PM Decision|Impact|Execution):\s*/g, '');
+                            return (
+                              <div key={hIdx} className="flex items-start gap-2">
+                                <div className={`mt-1 w-1.5 h-1.5 rounded-full flex-shrink-0 ${theme === 'dark' ? 'bg-primary-400' : 'bg-primary-600'}`} />
+                                <span className={`text-xs leading-relaxed ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>
+                                  {cleanHighlight.length > 60 ? cleanHighlight.substring(0, 60) + '...' : cleanHighlight}
+                                </span>
+                              </div>
+                            );
+                          })}
                         </div>
 
                         {/* Tags */}
@@ -307,7 +299,7 @@ const Projects: React.FC = () => {
                         </motion.div>
                       </div>
                     </div>
-                  </motion.a>
+                  </motion.div>
                 </motion.div>
               );
             })}
