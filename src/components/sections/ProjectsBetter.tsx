@@ -147,29 +147,36 @@ const Projects: React.FC = () => {
 
                     {/* PM Process Timeline */}
                     <div className="space-y-3 mb-8">
-                      {getKeyMetrics(projectsData.projects[0].highlights).map((item, idx) => (
-                        <motion.div
-                          key={idx}
-                          initial={{ opacity: 0, x: -20 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{ delay: idx * 0.1 + 0.3 }}
-                          className="flex items-start gap-3"
-                        >
-                          <div className={`p-2 rounded-lg ${theme === 'dark' ? 'bg-primary-500/10' : 'bg-primary-100'}`}>
-                            <Icon icon={item.icon} size={14} className={theme === 'dark' ? 'text-primary-400' : 'text-primary-600'} />
-                          </div>
-                          <div className="flex-1">
-                            {item.metric && (
-                              <span className={`text-2xl font-bold mr-2 ${theme === 'dark' ? 'text-primary-400' : 'text-primary-600'}`}>
-                                {item.metric}
+                      {projectsData.projects[0].highlights.map((highlight, idx) => {
+                        // Remove emoji prefixes and category labels (matches emojis at start)
+                        const cleanHighlight = highlight.replace(/^[\u{1F300}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]\s*(Strategy|PM Decision|Impact|Execution):\s*/gu, '');
+                        // Extract metric if present
+                        const metricMatch = cleanHighlight.match(/(\d+[%+]|\d+\.\d+[%+]|\d+[xX])/);
+                        const metric = metricMatch ? metricMatch[1] : null;
+                        const textWithoutMetric = metric ? cleanHighlight.replace(metric, '').trim() : cleanHighlight;
+                        
+                        return (
+                          <motion.div
+                            key={idx}
+                            initial={{ opacity: 0, x: -20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ delay: idx * 0.1 + 0.3 }}
+                            className="flex items-start gap-3"
+                          >
+                            <div className={`mt-1.5 w-2 h-2 rounded-full flex-shrink-0 ${theme === 'dark' ? 'bg-primary-400' : 'bg-primary-600'}`} />
+                            <div className="flex-1">
+                              {metric && (
+                                <span className={`text-xl font-bold mr-2 ${theme === 'dark' ? 'text-primary-400' : 'text-primary-600'}`}>
+                                  {metric}
+                                </span>
+                              )}
+                              <span className={`text-sm leading-relaxed ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>
+                                {textWithoutMetric}
                               </span>
-                            )}
-                            <span className={`text-sm ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>
-                              {item.text.replace(item.metric || '', '').trim()}
-                            </span>
-                          </div>
-                        </motion.div>
-                      ))}
+                            </div>
+                          </motion.div>
+                        );
+                      })}
                     </div>
 
                     {/* Tags */}
@@ -259,8 +266,8 @@ const Projects: React.FC = () => {
                         {/* Key Highlights */}
                         <div className="space-y-2 mb-4">
                           {project.highlights.slice(0, 2).map((highlight, hIdx) => {
-                            // Remove emoji prefixes like 🎯, 🧠, 📊, ⚡ from the text
-                            const cleanHighlight = highlight.replace(/^[🎯🧠📊⚡]\s*(Strategy|PM Decision|Impact|Execution):\s*/g, '');
+                            // Remove emoji prefixes and category labels (matches emojis at start)
+                            const cleanHighlight = highlight.replace(/^[\u{1F300}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]\s*(Strategy|PM Decision|Impact|Execution):\s*/gu, '');
                             return (
                               <div key={hIdx} className="flex items-start gap-2">
                                 <div className={`mt-1 w-1.5 h-1.5 rounded-full flex-shrink-0 ${theme === 'dark' ? 'bg-primary-400' : 'bg-primary-600'}`} />
