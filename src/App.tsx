@@ -6,6 +6,7 @@ import DiaBeatPage from './pages/DiaBeatPage';
 import GradPlannerPage from './pages/GradPlannerPage';
 import VRCompliancePage from './pages/VRCompliancePage';
 import AirbnbPage from './pages/AirbnbPage';
+import BlogPodcastPage from './pages/BlogPodcastPage';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { initGA, trackPageView } from './utils/analytics';
 
@@ -36,6 +37,7 @@ function App() {
           <Route path="/projects/diabeat" element={<DiaBeatPage />} />
           <Route path="/projects/gradplanner" element={<GradPlannerPage />} />
           <Route path="/projects/vr-compliance" element={<VRCompliancePage />} />
+          <Route path="/projects/blog-podcast" element={<BlogPodcastPage />} />
           <Route path="/projects/airbnb" element={<AirbnbPage />} />
         </Routes>
       </Router>

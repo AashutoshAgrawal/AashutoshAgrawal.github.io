@@ -26,6 +26,18 @@ const Projects: React.FC = () => {
   const { theme } = useTheme();
   const navigate = useNavigate();
   const [hoveredProject, setHoveredProject] = useState<number | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<string>('all');
+
+  // Get unique categories
+  const categories = ['all', ...Array.from(new Set(projectsData.projects.map(p => p.category)))];
+  
+  // Filter projects by category
+  const filteredProjects = selectedCategory === 'all' 
+    ? projectsData.projects 
+    : projectsData.projects.filter(p => p.category === selectedCategory);
+
+  // If no projects in filtered category, show all
+  const displayProjects = filteredProjects.length > 0 ? filteredProjects : projectsData.projects;
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -51,7 +63,8 @@ const Projects: React.FC = () => {
       2: '/projects/helphive',
       3: '/projects/gradplanner',
       4: '/projects/vr-compliance',
-      5: '/projects/airbnb',
+      5: '/projects/blog-podcast',
+      6: '/projects/airbnb',
     };
     return links[id] || '#';
   };
@@ -102,12 +115,34 @@ const Projects: React.FC = () => {
             <p className={`text-lg sm:text-xl max-w-3xl mx-auto leading-relaxed ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>
               End-to-end product ownership from <span className="font-semibold text-primary-500">discovery</span> to <span className="font-semibold text-primary-500">measurable impact</span>
             </p>
+            
+            {/* Category Filter */}
+            <div className="flex flex-wrap justify-center gap-3 mt-8">
+              {categories.map(category => (
+                <motion.button
+                  key={category}
+                  onClick={() => setSelectedCategory(category)}
+                  className={`px-5 py-2 rounded-full font-medium text-sm transition-all ${
+                    selectedCategory === category
+                      ? 'bg-gradient-to-r from-primary-500 to-secondary-500 text-white shadow-lg'
+                      : theme === 'dark'
+                      ? 'bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white border border-white/10'
+                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200 hover:text-gray-900 border border-gray-200'
+                  }`}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  {category.charAt(0).toUpperCase() + category.slice(1)}
+                </motion.button>
+              ))}
+            </div>
           </motion.div>
 
           {/* Hero Featured Project - Full Width Split */}
+          {displayProjects.length > 0 && (
           <motion.div variants={itemVariants} className="mb-12">
             <motion.div
-              onClick={() => navigate(getProjectLink(projectsData.projects[0].id))}
+              onClick={() => navigate(getProjectLink(displayProjects[0].id))}
               className="block group cursor-pointer"
               whileHover={{ scale: 1.01 }}
               transition={{ duration: 0.3 }}
@@ -117,8 +152,8 @@ const Projects: React.FC = () => {
                   {/* Image Side */}
                   <div className="relative h-72 md:h-auto overflow-hidden">
                     <img 
-                      src={projectsData.projects[0].image}
-                      alt={projectsData.projects[0].title}
+                      src={displayProjects[0].image}
+                      alt={displayProjects[0].title}
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                     />
                     <div className="absolute inset-0 bg-gradient-to-tr from-black/60 via-transparent to-transparent" />
@@ -133,21 +168,21 @@ const Projects: React.FC = () => {
                   <div className="p-8 md:p-12 flex flex-col justify-center">
                     <div className="mb-4">
                       <span className={`text-xs font-semibold uppercase tracking-wider ${theme === 'dark' ? 'text-primary-400' : 'text-primary-600'}`}>
-                        {projectsData.projects[0].category}
+                        {displayProjects[0].category}
                       </span>
                     </div>
                     
                     <h3 className={`text-3xl md:text-4xl font-display font-bold mb-4 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
-                      {projectsData.projects[0].title}
+                      {displayProjects[0].title}
                     </h3>
                     
                     <p className={`text-base md:text-lg mb-6 leading-relaxed ${theme === 'dark' ? 'text-gray-300' : 'text-gray-700'}`}>
-                      {projectsData.projects[0].description}
+                      {displayProjects[0].description}
                     </p>
 
                     {/* PM Process Timeline */}
                     <div className="space-y-3 mb-8">
-                      {projectsData.projects[0].highlights.map((highlight, idx) => {
+                      {displayProjects[0].highlights.map((highlight, idx) => {
                         // Remove emoji prefixes and category labels (matches emojis at start)
                         const cleanHighlight = highlight.replace(/^[\u{1F300}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]\s*(Strategy|PM Decision|Impact|Execution):\s*/gu, '');
                         // Extract metric if present
@@ -181,7 +216,7 @@ const Projects: React.FC = () => {
 
                     {/* Tags */}
                     <div className="flex flex-wrap gap-2 mb-6">
-                      {projectsData.projects[0].tags.map((tag, idx) => (
+                      {displayProjects[0].tags.map((tag, idx) => (
                         <span
                           key={idx}
                           className={`px-3 py-1.5 rounded-lg text-xs font-medium ${
@@ -215,10 +250,12 @@ const Projects: React.FC = () => {
               </div>
             </motion.div>
           </motion.div>
+          )}
 
-          {/* Other Projects - Grid */}
+          {/* Other Projects Grid */}
+          {displayProjects.length > 1 && (
           <motion.div variants={containerVariants} className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {projectsData.projects.slice(1).map((project, idx) => {
+            {displayProjects.slice(1).map((project, idx) => {
               const metrics = getKeyMetrics(project.highlights);
               const primaryMetric = metrics.find(m => m.metric);
               
@@ -311,6 +348,7 @@ const Projects: React.FC = () => {
               );
             })}
           </motion.div>
+          )}
 
           {/* Bottom CTA Section */}
           <motion.div 
